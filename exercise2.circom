@@ -33,4 +33,37 @@ template IsZero () {
     in*out === 0;
 }
 
+template IsEqual () {
+    //If in[0] is equal to in[1], out should be 1. Otherwise, out should be 0.
+    signal input in[2];
+    signal output out;
+    component iz = IsZero();
+    var tmp <-- (in[1] - in[0]);
+    iz.in <== tmp;
+    out <== iz.out;
+    out * (out-1) === 0;
+}
+
+template Selector () {
+
+}
+
+template IsNegative () {
+    //TODO
+}
+
+template LessThan () {
+    //Specification: If in[0] is strictly less than in[1], out should be 1. Otherwise, out should be 0
+    signal input in[2];
+    signal output out;
+    signal tmp;
+    tmp <-- (in[1] - in[0]) / abs(in[1] - in[0]);//1 -> 1 -1 -> 0
+    out <== (tmp+1) / 2;
+    out * (out-1) === 0;
+}
+
+template IntegerDivide () {
+
+}
+
 //component main = Example(11);
