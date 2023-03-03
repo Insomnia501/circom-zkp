@@ -8,7 +8,7 @@ template Num2Bit (nBits) {
     signal output b[nBits];
     
     for (var i = 0; i < nBits; i++){
-        // "/" is zhengshuchufa
+        // "/" is integerdevide
         b[i] <-- (in \ 2 ** i) % 2;
     }
     var sum = 0;
