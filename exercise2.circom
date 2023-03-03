@@ -38,14 +38,29 @@ template IsEqual () {
     signal input in[2];
     signal output out;
     component iz = IsZero();
-    var tmp <-- (in[1] - in[0]);
+    var tmp = (in[1] - in[0]);
     iz.in <== tmp;
     out <== iz.out;
     out * (out-1) === 0;
 }
 
-template Selector () {
+template Selector (nChoices) {
+    //Specification: The output out should be equal to in[index]. 
+    //If index is out of bounds (not in [0, nChoices)), out should be 0.
+    signal input in[nChoices];
+    signal input index;
+    signal output out;
+    component calcTotal = CalculateTotal(nChoices);
+    component eqs[nChoices];
 
+    // For each item, check whether its index equals the input index.
+    for (var i = 0; i < nChoices; i ++) {
+        eqs[i] = IsEqual();
+        eqs[i].in[0] <== index;
+        eqs[i].in[1] <== i;
+        calcTotal.in[i] <== eqs[i].out * in[i];
+    }
+    out <== calcTotal.out;
 }
 
 template IsNegative () {
@@ -63,7 +78,7 @@ template LessThan () {
 }
 
 template IntegerDivide () {
-
+    //TODO
 }
 
 //component main = Example(11);
